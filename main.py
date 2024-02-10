@@ -1,4 +1,4 @@
-from flask import Flask, url_for
+from flask import Flask, url_for, render_template
 from requests import request
 
 app = Flask(__name__)
@@ -151,6 +151,17 @@ def form_sample():
                             </div>
                           </body>
                         </html>'''
+
+
+@app.route('/<title>')
+@app.route('/index/<title>')
+def index(title):
+    return render_template('index.html', title=title)
+
+
+@app.route('/training/<prof>')
+def trainind(prof):
+    return render_template('treining.html', title="Тренировки в полёте", prof=prof)
 
 
 if __name__ == '__main__':
