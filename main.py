@@ -1,5 +1,5 @@
-from flask import Flask, url_for, render_template
-from requests import request
+from flask import Flask, url_for, render_template, request
+import os
 
 app = Flask(__name__)
 
@@ -264,6 +264,19 @@ def photo():
     return render_template('photo_index.html')
 
 
+a = "chalubey.png"
+@app.route('/sample_file_upload', methods=['POST', 'GET'])
+def sample_file_upload():
+    file = url_for('static', filename='img/chalubey1.png')
+    if request.method == 'GET':
+        return render_template("file_upload.html", file=file)
+    elif request.method == 'POST':
+        f = request.files['file']
+        with open(f'static/img/{f.filename}', 'wb') as file:
+            file.write(f.read())
+        file = url_for('static', filename=f'img/{f.filename}')
+        return render_template("file_upload.html", file=file)
 
+#http://127.0.0.1:8080//sample_file_upload
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
